@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\lenovo\\Desktop\\task\\taskOne\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6A7D5C7C-148D-42B7-9E46-2B15B6E49D2F}|taskOne\\taskOne.csproj|c:\\users\\lenovo\\desktop\\task\\taskone\\taskone\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6A7D5C7C-148D-42B7-9E46-2B15B6E49D2F}|taskOne\\taskOne.csproj|solutionrelative:taskone\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\lenovo\\Desktop\\task\\taskOne\\taskOne\\Program.cs",
+              "RelativeDocumentMoniker": "taskOne\\Program.cs",
+              "ToolTip": "C:\\Users\\lenovo\\Desktop\\task\\taskOne\\taskOne\\Program.cs",
+              "RelativeToolTip": "taskOne\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAQwAUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T18:41:54.143Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
