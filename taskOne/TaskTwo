@@ -1,0 +1,42 @@
+namespace Task2
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            {
+                {
+                    int numbers;
+                    numbers = 0;
+                    string choice;
+                    Console.WriteLine("S: the smallest number");
+                    Console.WriteLine("L: the largest number");
+                    Console.WriteLine("Q: Quit");
+                    Console.Write("Enter your choice");
+                    choice = Console.ReadLine();
+
+                    switch (choice)
+                    {
+                        case "S":
+                            if (numbers == 0)
+                                Console.WriteLine("Unable to determine the smallest number - list is empty");
+                            else
+                                Console.WriteLine("value The smallest number is.ToLower()");
+                            break;
+
+                        case "L":
+                            if (numbers == 0)
+                                Console.WriteLine("Unable to determine the largest number - list is empty");
+                            else
+                                Console.WriteLine(" The largest number is.ToUpper()");
+                            break;
+
+                        case "Q":
+                            Console.WriteLine("Goodbye!");
+                            break;
+                    }
+                }
+            }
+        }
+    }
+}
