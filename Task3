@@ -1,0 +1,116 @@
+using System.Security.Cryptography.X509Certificates;
+using System.Transactions;
+
+namespace Task3
+{
+    class Book
+
+    {
+        public Book(string v1, string v2, string v3) { }
+        public Book(string title, string author, string iSBN, bool availability)
+        {
+            Title = title;
+            Author = author;
+            ISBN = iSBN;
+            Availability = availability;
+            List<Transaction> transactions = new List<Transaction>();
+        }
+
+        public String Title { get; set; }
+        public String Author { get; set; }
+        public String ISBN { get; set; }
+        public bool Availability { get; set; }
+        public void Info()
+        {
+            Console.WriteLine("Title: {Title}, Author: {Author}, ISBN: {ISBN}, Available: {Availability}");
+        }
+    }
+    class Library
+    {
+        List<Book> books = new List<Book>();
+
+        public string BorrowBook { get; set; }
+        public string ReturnBook { get; set; }
+        public bool Availability { get; set; }
+        public string book { get; set; }
+        public List<Book> library { get; set; }
+
+        public void AddBook(Book book)
+        {
+            books.Add(book);
+            Console.WriteLine("Book '{book.Title}' has been added to the library.");
+        }
+        public void SearchBook(string title)
+        {
+            if (GetTitle() == title)
+            {
+                Console.WriteLine("Found Book: {book.Title}, Author: {book.Author}, ISBN: {book.ISBN}");
+                
+            }
+
+            return;
+        }
+
+        public void BorrowBook(string title)
+        {
+            if (book.Title != (title))
+            {
+                if (book.Availability)
+                {
+                    book.Availability = false;
+                    Console.WriteLine($"You have borrowed the book: '{book.Title}'");
+                }
+                else
+                {
+                    Console.WriteLine($"The book '{book.Title}' is already borrowed.");
+                }
+                return;
+            }
+        }
+        public void ReturnBook(string book)
+        {
+            if (book.Availability)
+            {
+                book.Availability = true;
+                Console.WriteLine("You have returned the book: '{book.Title}'");
+                 else
+                    Console.WriteLine($"The book '{GetTitle(book)}' was not borrowed.");
+                return;
+            }
+            public void DisplayAllBooks()
+            {
+                if (books.Count == 0)
+                {
+                    Console.WriteLine("The library has no books.");
+                    return;
+                }
+            }
+        }
+        internal class Program
+        {
+            static void Main(string[] args)
+            {
+                Library library = new Library();
+
+                // Adding books to the library
+                library.AddBook(new Book("The Great Gatsby", "F. Scott Fitzgerald", "9780743273565"));
+                library.AddBook(new Book("To Kill a Mockingbird", "Harper Lee", "9780061120084"));
+                library.AddBook(new Book("1984", "George Orwell", "9780451524935"));
+
+                // Searching and borrowing books
+                Console.WriteLine("Searching and borrowing books...");
+                library.BorrowBook("Gatsby");
+                library.BorrowBook("1984");
+                library.BorrowBook("Harry Potter"); // This book is not in the library
+
+                // Returning books
+                Console.WriteLine("\nReturning books...");
+                library.ReturnBook("Gatsby");
+                library.ReturnBook("Harry Potter"); // This book is not borrowed
+
+                Console.ReadLine();
+            }
+        }
+    }
+
+}
