@@ -1,0 +1,260 @@
+using static Examm.Program.QuestionList;
+
+namespace Exam
+{
+    internal class Program
+    {
+        public abstract class Question
+        {
+            public string Body { get; set; }
+            public int Marks { get; set; }
+            public string Header { get; set; }
+
+            protected Question(string body, int marks, string header)
+            {
+                Body = body;
+                Marks = marks;
+                Header = header;
+            }
+            public abstract void Display();
+            public abstract bool CheckAnswer (string answer);
+        }
+
+        public class TrueFalseQuestion : Question
+        {
+            public TrueFalseQuestion(string body, int marks, string header) : base(body, marks, header) { }
+
+            public override bool CheckAnswer(string answer)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override void Display()
+            {
+                Console.WriteLine($"{Header}: {Body} (True/False)");
+            }
+        }
+        public class ChooseOneQuestion : Question
+        {
+            public string[] Options { get; set; }
+
+            public ChooseOneQuestion(string body, int marks, string header, string[] options) : base(body, marks, header)
+            {
+                Options = options;
+            }
+
+            public override void Display()
+            {
+                Console.WriteLine($"{Header}: {Body}");
+                for (int i = 0; i < Options.Length; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {Options[i]}");
+                }
+            }
+
+            public override bool CheckAnswer(string answer)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class ChooseAllQuestion : Question
+        {
+            public string[] Options { get; set; }
+
+            public ChooseAllQuestion(string body, int marks, string header, string[] options) : base(body, marks, header)
+            {
+                Options = options;
+            }
+
+            public override void Display()
+            {
+                Console.WriteLine($"{Header}: {Body}");
+                for (int i = 0; i < Options.Length; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {Options[i]}");
+                }
+            }
+            public override bool CheckAnswer(string answer)
+            {
+                throw new NotImplementedException();
+            }
+        }
+        // Represents a list of questions with logging functionality.
+        public class QuestionList : List<Question>
+        {
+            private Question[] questions;
+            private string logFilePath;
+
+            public QuestionList(string logFilePath)
+            {
+                questions = new Question[0];
+                this.logFilePath = logFilePath;
+            }
+            public void Add(Question question)
+            {
+                Array.Resize(ref questions, questions.Length + 1);
+                questions[questions.Length - 1] = question;
+
+                // Log the question to the file
+
+                using (StreamWriter writer = new StreamWriter(logFilePath, true))
+                {
+                    writer.WriteLine($"Question: {question.Body}, Marks: {question.Marks}, Header: {question.Header}");
+                }
+
+            }
+            public Question[] GetQuestions()
+            {
+                return questions;
+            }
+            public class Answer
+            {
+                public string Body { get; set; }
+                public bool IsCorrect { get; set; }
+
+                public Answer(string body, bool Iscorrect)
+                {
+                    Body = body;
+                    IsCorrect = Iscorrect;
+                }
+            }
+            public class AnswerList
+            {
+                private Answer[] answers;
+
+                public AnswerList()
+                {
+                    answers = new Answer[0];
+                }
+
+                public void Add(Answer answer)
+                {
+                    Array.Resize(ref answers, answers.Length + 1);
+                    answers[answers.Length - 1] = answer;
+                }
+
+                public Answer[] GetAnswers()
+                {
+                    return answers;
+                }
+            }
+            /// Represents a subject for the exam
+            public class Subject
+            {
+                public string Name { get; set; }
+                public string Description { get; set; }
+
+                public Subject(string name, string description)
+                {
+                    Name = name;
+                    Description = description;
+                }
+            }
+            public abstract class Exam
+            {
+                public DateTime Time { get; set; }
+                public int NumberOfQuestions { get; set; }
+                public QuestionList Questions { get; set; }
+                public AnswerList Answers { get; set; }
+                public Subject Subject { get; set; }
+                protected Exam(DateTime time, int numberOfQuestions, QuestionList questions, AnswerList answers, Subject subject)
+                {
+                    Time = time;
+                    NumberOfQuestions = numberOfQuestions;
+                    Questions = questions;
+                    Answers = answers;
+                    Subject = subject;
+                }
+                public abstract void ShowExam();
+                public override bool Equals(object obj)
+                {
+                    if (obj is Exam exam)
+                    {
+                        return Time == exam.Time && Subject.Name == exam.Subject.Name;
+                    }
+                    return false;
+                }
+            }
+            public class PracticeExam : Exam
+            {
+                public PracticeExam(DateTime time, int numberOfQuestions, QuestionList questions, AnswerList answers, Subject subject)
+                    : base(time, numberOfQuestions, questions, answers, subject) { }
+
+                public override void ShowExam()
+                {
+                    Console.WriteLine("Practice Exam:");
+                    foreach (var question in Questions.GetQuestions())
+                    {
+                        question.Display();
+                        Console.Write("Your answer: ");
+                        string userAnswer = Console.ReadLine();
+                        if (question.CheckAnswer(userAnswer))
+                        {
+                            Console.WriteLine("Correct!\n");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Incorrect!\n");
+                        }
+                    }
+                    Console.WriteLine("Exam finished. Showing correct answers...");
+                }
+            }
+            public class FinalExam : Exam
+            {
+                public FinalExam(DateTime time, int numberOfQuestions, QuestionList questions, AnswerList answers, Subject subject)
+                    : base(time, numberOfQuestions, questions, answers, subject) { }
+
+                public override void ShowExam()
+                {
+                    Console.WriteLine("Final Exam:");
+                    foreach (var question in Questions.GetQuestions())
+                    {
+                        question.Display();
+                        Console.Write("Your answer: ");
+                        string userAnswer = Console.ReadLine();
+                        if (question.CheckAnswer(userAnswer))
+                        {
+                            Console.WriteLine("Correct!\n");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Incorrect!\n");
+                        }
+                    }
+                    Console.WriteLine("Exam finished.");
+                }
+            }
+        static void Main(string[] args)
+            {
+                // Create questions
+                Subject mathSubject = new Subject("Math", "Advanced Math");
+                QuestionList mathQuestions = new QuestionList("math_questions.log");
+                mathQuestions.Add(new TrueFalseQuestion("3 + 2 = 5?", 1, "True/False"));
+                mathQuestions.Add(new ChooseOneQuestion("2 * 3?", 2, "Choose One", new string[] { "6", "4", "12" }));
+                mathQuestions.Add(new ChooseAllQuestion("What are the numbers greater than one?", 3, "Choose All", new string[] { "2", "4", "5", "7" }));
+
+                // Create answers
+                var mathAnswers = new AnswerList();
+                mathAnswers.Add(new Answer("True", true));
+                mathAnswers.Add(new Answer("6", true));
+                mathAnswers.Add(new Answer("2", true));
+                mathAnswers.Add(new Answer("4", true));
+                mathAnswers.Add(new Answer("5", true));
+                mathAnswers.Add(new Answer("7", true));
+
+                // Select exam type
+                Console.WriteLine("Select Exam Type (1 , 2 ):");
+                int choice = int.Parse(Console.ReadLine());
+
+                // Create exams
+                Exam practiceExam = new PracticeExam(DateTime.Now, 3, mathQuestions, mathAnswers, mathSubject);
+                Exam finalExam = new FinalExam(DateTime.Now.AddDays(7), 3, mathQuestions, mathAnswers, mathSubject);
+
+                Exam selectedExam = choice == 1 ? practiceExam : finalExam;
+                selectedExam.ShowExam();
+            }
+        }
+        }
+    }
